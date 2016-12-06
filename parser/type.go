@@ -10,7 +10,7 @@ import (
 
 type Proto struct {
 	PackageName string
-	Service     Service
+	Service     *Service
 	Messages    map[string]Message
 }
 
@@ -42,7 +42,7 @@ func (p Proto) Message(key string) Message {
 
 func (prt *Proto) LoadService(service *descriptor.ServiceDescriptorProto) {
 
-	s := Service{
+	s := &Service{
 		Name: service.GetName(),
 	}
 
@@ -79,11 +79,19 @@ func (prt *Proto) LoadMessage(message *descriptor.DescriptorProto) {
 	prt.Messages[prt.messageTypeName(msg)] = msg
 }
 
+func (prt *Proto) HaveService() bool {
+	if prt.Service == nil {
+		return false
+	}
+
+	return true
+}
+
 func (prt *Proto) messageTypeName(msg Message) string {
 	return fmt.Sprintf(".%s.%s", prt.PackageName, msg.Name)
 }
 
-func (s Service) PathStr() string {
+func (s *Service) PathStr() string {
 	return fmt.Sprintf("%s", snaker.CamelToSnake(s.Name))
 }
 

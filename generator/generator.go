@@ -2,36 +2,41 @@ package generator
 
 import (
 	"bytes"
+	"fmt"
 	"text/template"
 
 	"github.com/Konboi/protoc-gen-md/parser"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/pkg/errors"
-	"os"
 )
 
 type Generator struct {
-	tmpl *template.Template
+	tmpl   *template.Template
+	option Option
 }
 
-func New() *Generator {
-	// todo
-	tmpl := template.Must(template.ParseFiles("./generator/markdown.template"))
+type Option struct {
+	Template string
+	FileName string
+}
+
+func New(opt Option) *Generator {
+	tmpl := template.Must(template.ParseFiles(opt.Template))
 
 	return &Generator{
-		tmpl: tmpl,
+		tmpl:   tmpl,
+		option: opt,
 	}
 }
 
-func (g Generator) Generate(prts []*parser.Proto) (*plugin.CodeGeneratorResponse_File, error) {
+func (g *Generator) Generate(prts []*parser.Proto) (*plugin.CodeGeneratorResponse_File, error) {
 	var doc bytes.Buffer
-	g.tmpl.Execute(os.Stderr, prts)
 
 	err := g.tmpl.Execute(&doc, prts)
 	if err != nil {
 		return nil, errors.Wrap(err, "[error] template execute error")
 	}
-	fileName := "doc.md"
+	fileName := fmt.Sprintf("%s.md", g.option.FileName)
 	content := doc.String()
 
 	return &plugin.CodeGeneratorResponse_File{

@@ -1,9 +1,6 @@
 package parser
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/pkg/errors"
@@ -41,9 +38,6 @@ func (p *Parser) Load(req plugin.CodeGeneratorRequest) error {
 }
 
 func (p *Parser) load(file *descriptor.FileDescriptorProto) error {
-	if skipFiles(file.GetName()) {
-		return nil
-	}
 	prt := &Proto{
 		PackageName: file.GetPackage(),
 	}
@@ -53,28 +47,12 @@ func (p *Parser) load(file *descriptor.FileDescriptorProto) error {
 		prt.LoadMessage(message)
 	}
 
-	if len(file.GetService()) == 0 {
-		return nil
+	if len(file.GetService()) == DefineServiceLimit {
+		service := file.GetService()[0]
+		prt.LoadService(service)
 	}
-
-	if len(file.GetService()) > DefineServiceLimit {
-		return fmt.Errorf("Define Service Limit is %d but define %d", DefineServiceLimit, len(file.GetService()))
-	}
-
-	service := file.GetService()[0]
-	prt.LoadService(service)
 
 	p.files = append(p.files, prt)
 
 	return nil
-}
-
-func skipFiles(fileName string) bool {
-	for _, name := range ignoreFiles {
-		if strings.Contains(fileName, name) {
-			return true
-		}
-	}
-
-	return false
 }

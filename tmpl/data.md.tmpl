@@ -1,0 +1,16 @@
+# Data Document
+
+## Index
+{{ range . }}{{ range $key, $val := .Messages }}
+  - [{{ $val.Name }}](#{{ $val.Name }}){{ end }}{{ end }}
+
+## Detail
+
+{{ range . }}{{ range $key, $val := .Messages }}
+### <a name="{{ $val.Name }}"></a>{{ $val.Name }}
+
+|key|type|
+|:--|:--|
+{{ range $val.Fields }}|{{ .Name }}|{{ .Type }}|
+{{ end }}
+{{ end }}{{ end }}

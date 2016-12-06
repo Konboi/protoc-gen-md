@@ -1,14 +1,14 @@
-# Document
+# Service Document
 
 ## Index
-{{ range . }}{{ $proto := . }}
+{{ range . }}{{ $proto := . }}{{ if $proto.HaveService }}
 ### {{ .Service.Name }}
 {{ $service := .Service }}{{ range $service.Methods }}
   - [/api/{{ $service.PathStr }}/{{ .PathStr }}](#{{ $service.PathStr }}_{{.PathStr}}){{ end }}
-{{ end }}
+{{ end }}{{ end }}
 ## Detail
-{{ range . }}{{ $proto := . }}
-## {{ .Service.Name }}
+
+{{ range . }}{{ $proto := . }}{{ if $proto.HaveService }}## {{ .Service.Name }}
 {{ $service := .Service }}{{ range $service.Methods }}
 ### <a name="{{ $service.PathStr }}_{{.PathStr}}">/api/{{ $service.PathStr }}/{{.PathStr}}</a>
 
@@ -28,4 +28,4 @@
 |key|type|
 |:--|:--|
 {{ range .Response.Fields }}|{{ .Name }}|{{ .Type }}|
-{{ end }}{{ end }}{{ end }}
+{{ end }}{{ end }}{{ end }}{{ end }}
