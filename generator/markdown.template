@@ -1,0 +1,31 @@
+# Document
+
+## Index
+{{ range . }}{{ $proto := . }}
+### {{ .Service.Name }}
+{{ $service := .Service }}{{ range $service.Methods }}
+  - [/api/{{ $service.PathStr }}/{{ .PathStr }}](#{{ $service.PathStr }}_{{.PathStr}}){{ end }}
+{{ end }}
+## Detail
+{{ range . }}{{ $proto := . }}
+## {{ .Service.Name }}
+{{ $service := .Service }}{{ range $service.Methods }}
+### <a name="{{ $service.PathStr }}_{{.PathStr}}">/api/{{ $service.PathStr }}/{{.PathStr}}</a>
+
+#### Request Method
+
+{{ .RequestMethod }}
+
+#### Request Parameter: {{ .Request.Name }}
+
+|key|type|
+|:--|:--|
+{{ range .Request.Fields }}|{{ .Name }}|{{ .Type }}|
+{{ end }}
+
+#### Response Parameter: {{ .Response.Name }}
+
+|key|type|
+|:--|:--|
+{{ range .Response.Fields }}|{{ .Name }}|{{ .Type }}|
+{{ end }}{{ end }}{{ end }}
