@@ -64,7 +64,7 @@ func (prt *Proto) LoadMessage(message *descriptor.DescriptorProto) {
 	msg.Name = message.GetName()
 	msg.Fields = make([]Field, 0, len(message.GetField()))
 	for _, field := range message.GetField() {
-		typeName := typeToString(field.GetType())
+		typeName := typeToString(field.GetType().String())
 		if typeName == "message" {
 			typeName = strings.Replace(field.GetTypeName(), ".", "", 1)
 		}
@@ -107,29 +107,29 @@ func (m Method) RequestMethod() string {
 	return "POST"
 }
 
-func typeToString(t descriptor.FieldDescriptorProto_Type) string {
+func typeToString(t string) string {
 	switch t {
-	case descriptor.FieldDescriptorProto_TYPE_DOUBLE:
+	case "TYPE_DOUBLE":
 		return "double"
-	case descriptor.FieldDescriptorProto_TYPE_FLOAT:
+	case "TYPE_FLOAT":
 		return "float"
-	case descriptor.FieldDescriptorProto_TYPE_INT64:
+	case "TYPE_INT64":
 		return "int64"
-	case descriptor.FieldDescriptorProto_TYPE_UINT64:
+	case "TYPE_UINT64":
 		return "uint64"
-	case descriptor.FieldDescriptorProto_TYPE_INT32:
+	case "TYPE_INT32":
 		return "int32"
-	case descriptor.FieldDescriptorProto_TYPE_UINT32:
+	case "TYPE_UINT32":
 		return "uint32"
-	case descriptor.FieldDescriptorProto_TYPE_BOOL:
+	case "TYPE_BOOL":
 		return "bool"
-	case descriptor.FieldDescriptorProto_TYPE_STRING:
+	case "TYPE_STRING":
 		return "string"
-	case descriptor.FieldDescriptorProto_TYPE_BYTES:
+	case "TYPE_BYTES":
 		return "bytes"
-	case descriptor.FieldDescriptorProto_TYPE_ENUM:
+	case "TYPE_ENUM":
 		return "enum"
-	case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
+	case "TYPE_MESSAGE":
 		return "message"
 	}
 
