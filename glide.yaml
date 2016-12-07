@@ -1,0 +1,9 @@
+package: github.com/Konboi/protoc-gen-md
+import:
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
+  - protoc-gen-go/descriptor
+  - protoc-gen-go/plugin
+- package: github.com/pkg/errors
+- package: github.com/serenize/snaker

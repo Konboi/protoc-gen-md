@@ -1,0 +1,14 @@
+hash: 8cfe834ea8b4fa57a9ec3b423fb32c7e8a6247e788c8535ed0a8e1fb1ca02eff
+updated: 2016-12-07T11:00:30.430092643+09:00
+imports:
+- name: github.com/golang/protobuf
+  version: 98fa357170587e470c5f27d3c3ea0947b71eb455
+  subpackages:
+  - proto
+  - protoc-gen-go/descriptor
+  - protoc-gen-go/plugin
+- name: github.com/pkg/errors
+  version: 645ef00459ed84a119197bfb8d8205042c6df63d
+- name: github.com/serenize/snaker
+  version: 543781d2b79bd95c51ffe70e70a55c946ca211ff
+testImports: []
